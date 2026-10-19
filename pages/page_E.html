@@ -243,12 +243,37 @@
 
             <h4>C) DeepCNN Classifier</h4>
             <ul>
-                <li><strong>ConvBlock 1:</strong> Conv2d(3, 32, k=3, p=1) + BatchNorm2d(32) &rarr; MaxPool2d(2, 2) | Params: 896 + 64</li>
-                <li><strong>ConvBlock 2:</strong> Conv2d(32, 64, k=3, p=1) + BatchNorm2d(64) &rarr; MaxPool2d(2, 2) | Params: 18,496 + 128</li>
-                <li><strong>ConvBlock 3:</strong> Conv2d(64, 128, k=3, p=1) + BatchNorm2d(128) &rarr; MaxPool2d(2, 2) | Params: 73,856 + 256</li>
-                <li><strong>ConvBlock 4:</strong> Conv2d(128, 256, k=3, p=1) + BatchNorm2d(256) &rarr; AdaptiveAvgPool2d(1, 1) | Params: 295,168 + 512 = 295,680</li>
-                <li><strong>Classifier Head:</strong> Linear(256, 128) &rarr; Linear(128, 10) | Params: 32,896 + 1,290 = 34,186</li>
-                <li><strong>Total Trainable Parameters:</strong> <strong>423,562</strong> params.</li>
+            <li><strong>Sequential 1:</strong>
+                <ul>
+                    <li>ConvBlock 1: Conv2d(3, 32, k=3, p=1) + BatchNorm2d(32) | Params: 896 + 64</li>
+                    <li>ConvBlock 2: Conv2d(32, 96, k=3, p=1) + BatchNorm2d(96) | Params: 27,744 + 192</li>
+                    <li>ConvBlock 3: Conv2d(96, 96, k=3, p=1) + BatchNorm2d(96) | Params: 83,040 + 192</li>
+                    <li>ConvBlock 4: Conv2d(96, 96, k=3, p=1) + BatchNorm2d(96) | Params: 83,040 + 192</li>
+                </ul>
+            </li>
+            <li><strong>MaxPool2d 1:</strong> Kernel 2x2 &rarr; Spatial Size: (32, 32) &rarr; (16, 16)</li>
+            <li><strong>Sequential 2:</strong>
+                <ul>
+                    <li>ConvBlock 5: Conv2d(96, 192, k=3, p=1) + BatchNorm2d(192) | Params: 166,080 + 384</li>
+                    <li>ConvBlock 6: Conv2d(192, 192, k=3, p=1) + BatchNorm2d(192) | Params: 331,968 + 384</li>
+                    <li>ConvBlock 7: Conv2d(192, 192, k=3, p=1) + BatchNorm2d(192) | Params: 331,968 + 384</li>
+                </ul>
+            </li>
+            <li><strong>MaxPool2d 2:</strong> Kernel 2x2 &rarr; Spatial Size: (16, 16) &rarr; (8, 8)</li>
+            <li><strong>Sequential 3:</strong>
+                <ul>
+                    <li>ConvBlock 8: Conv2d(192, 192, k=3, p=1) + BatchNorm2d(192) | Params: 331,968 + 384</li>
+                    <li>ConvBlock 9: Conv2d(192, 192, k=3, p=1) + BatchNorm2d(192) | Params: 331,968 + 384</li>
+                </ul>
+            </li>
+            <li><strong>MaxPool2d 3:</strong> Kernel 2x2 &rarr; Spatial Size: (8, 8) &rarr; (4, 4)</li>
+            <li><strong>Global Pooling & Classifier:</strong>
+                <ul>
+                    <li>AdaptiveAvgPool2d(1, 1) &rarr; Feature Map: (192, 1, 1)</li>
+                    <li>Classifier Head: Linear(192, 10) | Params: 1,930</li>
+                </ul>
+            </li>
+            <li><strong>Total Trainable Parameters:</strong> <strong>1,692,090</strong> params</li>
             </ul>
 
             <h3>3. Comparison Results</h3>
@@ -282,8 +307,8 @@
                     </tr>
                     <tr>
                         <td class="text-left"><strong>DeepCNN Classifier</strong></td>
-                        <td class="text-left">4 ConvBlocks (BatchNorm) + Global Average Pooling + 2 Linear</td>
-                        <td>423,562</td>
+                        <td class="text-left">[4 Conv + BatchNorm] => MaxPool => [3 Conv + BatchNorm] => MaxPool => [2 Conv + BatchNorm] => GAP => Linear</td>
+                        <td>1,692,090</td>
                         <td>--.--%</td>
                         <td>--.--%</td>
                         <td>-- s</td>
