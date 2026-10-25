@@ -133,6 +133,12 @@
             border-radius: 6px;
             margin: 12px 0;
         }
+        .placeholder-box img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
         .comparison-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
@@ -198,7 +204,8 @@
             <li><strong>Reason for Selection:</strong> The dataset is sufficiently large (over 130,000 images) with 100 classes, balanced distribution, accurately reflecting the real performance of CNNs and Transformers without being limited by small datasets like MNIST or CIFAR-10.</li>
         </ul>
         <div class="placeholder-box">
-            [Placeholder for the distribution chart of the number of images across classes / Example visualization of samples from ImageNet-100]
+            <img src="./img/A1_dataset.png"
+                alt="Placeholder for the distribution chart of the number of images across classes / Example visualization of samples from ImageNet-100">
         </div>
     </section>
 
@@ -283,34 +290,27 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>ResNet-50</td>
+                    <td>ResNet-50 / ViT</td>
                     <td>Random Initialization</td>
                     <td><span class="badge badge-scratch">From-Scratch</span></td>
                     <td class="text-left">Unfreeze 100% of parameters (Train from scratch).</td>
                 </tr>
                 <tr>
                     <td>2</td>
-                    <td>ViT-B/16</td>
-                    <td>Random Initialization</td>
-                    <td><span class="badge badge-scratch">From-Scratch</span></td>
-                    <td class="text-left">Unfreeze 100% of parameters (Train from scratch).</td>
-                </tr>
-                <tr>
-                    <td>3</td>
                     <td>ResNet-50 / ViT</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-freeze">Freeze Full Backbone</span></td>
                     <td class="text-left">Freeze the entire Backbone, only train the Linear Classifier Head.</td>
                 </tr>
                 <tr>
-                    <td>4</td>
+                    <td>3</td>
                     <td>ResNet-50 / ViT</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-partial">Partial Freeze</span></td>
                     <td class="text-left">Partial freeze (Freeze Layers 1-3 of ResNet or the first 6 Transformer Blocks of ViT).</td>
                 </tr>
                 <tr>
-                    <td>5</td>
+                    <td>4</td>
                     <td>ResNet-50 / ViT</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-pretrained">Full Fine-tune</span></td>
