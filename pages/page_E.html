@@ -129,6 +129,13 @@
                 object-fit: contain;
             }
 
+            .full-width-img img {
+                display: block;
+                width: 100%;
+                height: auto;
+                object-fit: contain;
+            }
+
             .comparison-grid {
                 display: grid;
                 grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
@@ -208,10 +215,10 @@
             </div>
 
             <div class="links-group">
-                <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/tree/main/E_series" target="_blank" class="btn-link">
+                <a href="../BTL_E1-E2-E3/" target="_blank" class="btn-link">
                     GitHub Code Repository
                 </a>
-                <a href="../reports/E_Series_Report.pdf" target="_blank" class="btn-link btn-pdf">
+                <a href="../BTL_E1-E2-E3/report/E1E2E3_report.pdf" target="_blank" class="btn-link btn-pdf">
                     PDF Report
                 </a>
             </div>
@@ -310,28 +317,28 @@
                         <td class="text-left"><strong>Softmax Classifier</strong></td>
                         <td class="text-left">Flatten &rarr; Linear(3072, 10)</td>
                         <td>30,730</td>
-                        <td>48.19%</td>
-                        <td>39.41%</td>
-                        <td>38.88%</td>
-                        <td>2181.37 s</td>
+                        <td>48.97%</td>
+                        <td>39.37%</td>
+                        <td>38.63%</td>
+                        <td>2685.59 s</td>
                     </tr>
                     <tr>
                         <td class="text-left"><strong>MLP Classifier</strong></td>
                         <td class="text-left">Flatten &rarr; 4 &times; Hidden Layers (256-128-64-32) + ReLU</td>
                         <td>830,250</td>
-                        <td>74.59%</td>
-                        <td>55.45%</td>
-                        <td>55.34%</td>
-                        <td>2203.31 s</td>
+                        <td>86.9%</td>
+                        <td>54.72%</td>
+                        <td>55.23%</td>
+                        <td>2806.75 s</td>
                     </tr>
                     <tr>
                         <td class="text-left"><strong>DeepCNN Classifier</strong></td>
                         <td class="text-left">[3 Conv + BatchNorm] => MaxPool => [3 Conv + BatchNorm] => MaxPool => [2 Conv + BatchNorm] => GAP => Linear</td>
                         <td>1,667,146</td>
                         <td>99.96%</td>
-                        <td>89.47%</td>
-                        <td>88.57%</td>
-                        <td>2654.73 s</td>
+                        <td>89.46%</td>
+                        <td>88.6%</td>
+                        <td>3043.72 s</td>
                     </tr>
                 </tbody>
             </table>
@@ -350,7 +357,6 @@
                         <img src="../BTL_E1-E2-E3/E1/models/confusion_matrix.png" alt="Confusion Matrix of Softmax vs MLP vs DeepCNN">
                         <img src="../BTL_E1-E2-E3/E1/models/fail_sample_0.png" alt="Misclassified Samples of Softmax vs MLP vs DeepCNN">
                         <img src="../BTL_E1-E2-E3/E1/models/fail_sample_1.png" alt="Misclassified Samples of Softmax vs MLP vs DeepCNN">
-                        <img src="../BTL_E1-E2-E3/E1/models/fail_sample_2.png" alt="Misclassified Samples of Softmax vs MLP vs DeepCNN">
                     </div>
                 </div>
             </div>
@@ -370,7 +376,8 @@
                 <li><strong>Tokenization Strategy on CIFAR-10:</strong>
                     <ul>
                         <li><code>Patch Tokenization:</code> Split the 32 &times; 32 image into grid patches</li>
-                        <li><code>Pixel / Row Tokenization:</code> Treat each row (32 rows = 32 steps, 96-dim vector)</li>
+                        <li><code>Pixel Tokenization:</code> Treat each row (32 rows = 32 steps, 96-dim vector)</li>
+                        <li><code>Row Tokenization:</code> Treat each row (32 rows = 32 steps, 96-dim vector)</li>
                         <li><code>CNN-stem:</code> Reduce the feature map using a CNN, each spatial location becomes 1 token</li>
                     </ul>
                 </li>
@@ -380,59 +387,74 @@
             <table>
                 <thead>
                     <tr>
-                        <th>Type of MSA</th>
-                        <th>Tokenization Method</th>
+                        <th>Tokenization</th>
                         <th>Number of Tokens</th>
-                        <th>Val/Test Accuracy (%)</th>
-                        <th>Time (s/epoch)</th>
+                        <th>Dim of Tokens</th>
+                        <th>Parameter</th>
+                        <th>Train Accuracy (%)</th>
+                        <th>Validation Accuracy (%)</th>
+                        <th>Test Accuracy (%)</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td rowspan="3"><strong>MSA From Scratch</strong><br>(Scratch)</td>
-                        <td class="text-left">Patch (TBU &times; TBU)</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>-- s</td>
+                        <td class="text-left">Patch (4 &times; 4)</td>
+                        <td>64</td>
+                        <td>48</td>
+                        <td>413194</td>
+                        <td>99.6675%</td>
+                        <td>74.22%</td>
+                        <td>70.60%</td>
                     </tr>
                     <tr>
-                        <td class="text-left">Row / Pixel</td>
+                        <td class="text-left">Pixel</td>
+                        <td>1024</td>
+                        <td>3</td>
+                        <td>530314</td>
+                        <td>84.79%</td>
+                        <td>67.23%</td>
+                        <td>63.73%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Row</td>
                         <td>32</td>
-                        <td>--.--%</td>
-                        <td>-- s</td>
+                        <td>96</td>
+                        <td>415242</td>
+                        <td>99.975%</td>
+                        <td>67.03%</td>
+                        <td>63.70%</td>
                     </tr>
                     <tr>
                         <td class="text-left">CNN-stem</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>-- s</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="3"><strong>MSA PyTorch</strong><br>(PyTorch)</td>
-                        <td class="text-left">Patch (TBU &times; TBU)</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>-- s</td>
-                    </tr>
-                    <tr>
-                        <td class="text-left">Row / Pixel</td>
-                        <td>32</td>
-                        <td>--.--%</td>
-                        <td>-- s</td>
-                    </tr>
-                    <tr>
-                        <td class="text-left">CNN-stem</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>-- s</td>
+                        <td>64</td>
+                        <td>192</td>
+                        <td>2098772</td>
+                        <td>100%</td>
+                        <td>88.97%</td>
+                        <td>88.50%</td>
                     </tr>
                 </tbody>
             </table>
 
             <h3>3. Analysis & Evaluation</h3>
-            <div class="placeholder-box">
-                [Comparison chart of execution time & Accuracy between MSA From Scratch vs PyTorch | Evaluation of pros and cons of each tokenization method on CIFAR-10]
-            </div>
+                <div class="placeholder-box">
+                    <img src="../BTL_E1-E2-E3/E2/models/curves.png" alt="Loss & Accuracy Curves of both tokenization strategies">
+                </div>
+                <div class="full-width-img">
+                    <img src="../BTL_E1-E2-E3/E2/models/confusion_matrix.png" alt="Confusion Matrix of both tokenization strategies">
+                </div>
+                <div class="comparison-grid">
+                    <div class="model-column">
+                        <div class="placeholder-box">
+                            <img src="../BTL_E1-E2-E3/E2/models/fail_sample_0.png" alt="Misclassified Samples of both tokenization strategies">
+                        </div>
+                    </div>
+                    <div class="model-column">
+                        <div class="placeholder-box">
+                            <img src="../BTL_E1-E2-E3/E2/models/fail_sample_1.png" alt="Misclassified Samples of both tokenization strategies">
+                        </div>
+                    </div>
+                </div>
         </section>
 
         <!-- =================================================================== -->

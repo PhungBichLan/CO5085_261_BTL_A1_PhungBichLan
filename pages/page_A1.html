@@ -190,7 +190,13 @@
     <section>
         <h2>1. Exploratory Data Analysis (EDA) & Dataset Split</h2>
         <ul>
-            <li><strong>Source Code Access:</strong> https://huggingface.co/datasets/asafaa/imagent100</li>
+            <li>
+                <strong>Source Code Access:</strong>
+                <a href="https://huggingface.co/datasets/asafaa/imagent100"
+                    target="_blank">
+                    ImageNet-100 Dataset
+                </a>
+            </li>
             <li><strong>Selected Dataset:</strong> ImageNet-100 (100 classes extracted from the original ImageNet)</li>
             <li><strong>License:</strong> Apache license 2.0</li>
             <li><strong>Split Configuration:</strong>
@@ -204,7 +210,7 @@
             <li><strong>Reason for Selection:</strong> The dataset is sufficiently large (over 130,000 images) with 100 classes, balanced distribution, accurately reflecting the real performance of CNNs and Transformers without being limited by small datasets like MNIST or CIFAR-10.</li>
         </ul>
         <div class="placeholder-box">
-            <img src="./img/A1_dataset.png"
+            <img src="../pages/img/A1_dataset.png"
                 alt="Placeholder for the distribution chart of the number of images across classes / Example visualization of samples from ImageNet-100">
         </div>
     </section>
@@ -229,13 +235,13 @@
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Batch Size</strong></td>
-                    <td>32/64/128</td>
-                    <td>32/64/128</td>
+                    <td>32</td>
+                    <td>32</td>
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Shuffle & Workers</strong></td>
-                    <td><code>Shuffle = True</code>, <code>num_workers = 4/8</code></td>
-                    <td><code>Shuffle = False</code>, <code>num_workers = 4/8</code></td>
+                    <td><code>Shuffle = True</code>, <code>num_workers = 8</code></td>
+                    <td><code>Shuffle = False</code>, <code>num_workers = 8</code></td>
                 </tr>
                 <tr>
                     <td class="text-left"><strong>Pin Memory & Drop Last</strong></td>
@@ -272,9 +278,9 @@
         <ul>
             <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500</code></li>
             <li><strong>Pretrained model:</strong><code> Resnet50 (PyTorch), ViT-B/16 (PyTorch)</code></li>
-            <li><strong>Optimizer: </strong>TBU<code> (lr = TBU, weight_decay = TBU)</code></li>
-            <li><strong>Scheduler: </strong>StepLR:<code> lr = TBU</code></li>
-            <li><strong>Epochs:</strong><code> TBU</code></li>
+            <li><strong>Optimizer: </strong>Adam<code> (lr(bb) = 0.0005, lr(head)=0.001)</code></li>
+            <li><strong>Scheduler: </strong>StepLR:<code> step_size = 10, gamma = 0.1</code></li>
+            <li><strong>Epochs:</strong><code> 20 (pre-trained)</code></li>
         </ul>
 
         <table>

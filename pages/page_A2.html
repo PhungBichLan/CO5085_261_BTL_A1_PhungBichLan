@@ -1,0 +1,1218 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A2</title>
+
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-color: #1e293b;
+            --border-color: #e2e8f0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1050px;
+            margin: 0 auto;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-bottom: 20px;
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            text-decoration: underline;
+        }
+
+        header, section {
+            background-color: var(--card-bg);
+            padding: 24px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            margin-bottom: 20px;
+        }
+
+        h1, h2, h3 {
+            margin-top: 0;
+            color: #0f172a;
+        }
+
+        h2 {
+            border-bottom: 2px solid var(--border-color);
+            padding-bottom: 8px;
+            font-size: 1.25rem;
+        }
+
+        .meta-info {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+
+        .links-group {
+            margin-top: 16px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn-link {
+            display: inline-flex;
+            align-items: center;
+            padding: 8px 16px;
+            background-color: var(--primary-color);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .btn-link:hover {
+            opacity: 0.9;
+        }
+
+        .btn-pdf {
+            background-color: #475569;
+        }
+
+        .btn-video {
+            background-color: #dc2626;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 12px;
+            font-size: 0.92rem;
+        }
+
+        th, td {
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f1f5f9;
+        }
+
+        td.text-left {
+            text-align: left;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .badge-scratch {
+            background: #ffe4e6;
+            color: #9f1239;
+        }
+
+        .badge-pretrained {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .badge-freeze {
+            background: #fef9c3;
+            color: #854d0e;
+        }
+
+        .badge-partial {
+            background: #e0e7ff;
+            color: #3730a3;
+        }
+
+        .badge-cnn {
+            background: #dbeafe;
+            color: #1d4ed8;
+        }
+
+        .badge-transformer {
+            background: #f3e8ff;
+            color: #7e22ce;
+        }
+
+        .badge-hybrid {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .placeholder-box {
+            background-color: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            padding: 20px;
+            text-align: center;
+            color: #64748b;
+            border-radius: 6px;
+            margin: 12px 0;
+        }
+
+        .placeholder-box img {
+            width: 100%;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .architecture-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .model-column {
+            background-color: #ffffff;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 16px;
+            min-width: 0;
+        }
+
+        .model-column h3 {
+            text-align: center;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 8px;
+            margin-bottom: 16px;
+        }
+
+        .model-type {
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .model-column ul {
+            padding-left: 20px;
+        }
+
+        .model-column li {
+            margin-bottom: 5px;
+        }
+
+        .note {
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px;
+            }
+
+            header, section {
+                padding: 16px;
+            }
+
+            table {
+                font-size: 0.8rem;
+            }
+
+            th, td {
+                padding: 7px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <a href="../index.html" class="back-btn">
+        &larr; Back to Main Page
+    </a>
+
+    <!-- Header & Metadata -->
+    <header>
+        <h1>Assignment A2: MobileViT - Lightweight Vision Transformer</h1>
+
+        <div class="meta-info">
+            <div>
+                <strong>Dataset:</strong> ImageNet-100
+            </div>
+
+            <div>
+                <strong>CNN Family:</strong> MobileNetV2
+            </div>
+
+            <div>
+                <strong>Transformer Family:</strong> DeiT-Tiny
+            </div>
+
+            <div>
+                <strong>Hybrid:</strong> MobileViT-XS
+            </div>
+
+            <div>
+                <strong>Conference:</strong> ICLR 2022
+            </div>
+
+            <div>
+                <strong>Task:</strong> Image Classification
+            </div>
+        </div>
+
+        <div class="links-group">
+            <a href="https://github.com/YOUR_USERNAME/YOUR_REPO/tree/main/A2"
+               target="_blank"
+               class="btn-link">
+                GitHub Code (A2 Folder)
+            </a>
+
+            <a href="../reports/A2_Report.pdf"
+               target="_blank"
+               class="btn-link btn-pdf">
+                PDF Report
+            </a>
+
+            <a href="https://openreview.net/pdf?id=vh-0sUt8HlG"
+               target="_blank"
+               class="btn-link btn-video">
+                Reference Paper
+            </a>
+        </div>
+    </header>
+
+    <section class="section">
+        <h2>1. Introduction to the Research Paper</h2>
+
+        <h3>1.1. Paper Information</h3>
+        <div class="info-card">
+            <p><strong>Title:</strong> MobileViT: Light-weight, General-purpose, and Mobile-friendly Vision Transformer</p>
+            <p><strong>Authors:</strong> Sachin Mehta and Mohammad Rastegari</p>
+            <p><strong>Conference:</strong> International Conference on Learning Representations (ICLR), 2022</p>
+            <p><strong>Paper:</strong>
+                <a href="https://openreview.net/pdf?id=vh-0sUt8HlG" target="_blank">
+                    Read the original paper
+                </a>
+            </p>
+            <p><strong>Official implementation:</strong>
+                <a href="https://github.com/apple/ml-cvnets" target="_blank">
+                    Apple ML-CVNets
+                </a>
+            </p>
+        </div>
+
+        <h3>1.2. Research Background</h3>
+        <p>
+            Convolutional Neural Networks (CNNs) have been widely used in computer
+            vision because of their ability to capture local spatial features
+            efficiently. However, their local receptive fields can limit the
+            modeling of long-range dependencies between distant image regions.
+        </p>
+        <p>
+            Vision Transformers (ViTs) address this limitation by using
+            self-attention to model global relationships between image tokens.
+            Despite their effectiveness, conventional Transformer architectures
+            can introduce considerable computational and memory costs, making
+            them less suitable for resource-constrained mobile devices.
+        </p>
+        <p style="font-style: italic; color: Blue;">
+            Abstract: "In this paper, we ask the following question: is it possible to combine the strengths of CNNs and ViTs to build a light-weight and low latencynetwork for mobile vision tasks?"
+        </p>
+
+        <h3>1.3. Research Objective</h3>
+        <p>
+            The paper introduces <strong>MobileViT</strong>, a lightweight
+            vision architecture that combines the strengths of CNNs and
+            Transformers. Its main objective is to capture both local and
+            global spatial representations while maintaining computational
+            efficiency and a small model size.
+        </p>
+        <p>
+            Instead of treating CNNs and Transformers as separate alternatives,
+            MobileViT integrates Transformer-based global processing into
+            convolutional feature extraction blocks.
+        </p>
+
+        <h3>1.4. Main Contributions</h3>
+        <ul>
+            <li>
+                Proposes MobileViT, a lightweight hybrid CNN-Transformer architecture.
+            </li>
+            <li>
+                Introduces MobileViT blocks using unfolding and folding operations.
+            </li>
+            <li>
+                Combines local feature extraction with global self-attention.
+            </li>
+            <li>
+                Achieves competitive classification performance with low model complexity.
+            </li>
+        </ul>
+
+        <h3>1.5. Relevance to This Experiment</h3>
+        <p>
+            This experiment compares <strong>MobileViT</strong>, <strong>MobileNetV2</strong>, and <strong>DeiT-Tiny</strong> for image classification on a PC. 
+        </p>
+        <p>
+            Models are evaluated based on accuracy, parameter count, training time, and inference time to analyze the trade-off between performance and computational efficiency.
+        </p>
+        <p style="font-style: italic; color: Red;">
+            Unlike the original MobileViT paper, which trains on ImageNet-1K with approximately 1.28 million training images, this experiment uses ImageNet-100 with only 123,982 training images. 
+            Therefore, pretrained weights and fine-tuning strategies are considered to improve training effectiveness under the smaller dataset setting. 
+            MobileViT is also evaluated from scratch to investigate the impact of pretraining.    
+        </p>
+    </section>
+
+    <!-- 2. EDA & Dataset Split -->
+    <section>
+        <h2>2. Exploratory Data Analysis (EDA) & Dataset Split</h2>
+
+        <ul>
+            <li>
+                <strong>Source Code Access:</strong>
+                <a href="https://huggingface.co/datasets/asafaa/imagent100"
+                   target="_blank">
+                    ImageNet-100 Dataset
+                </a>
+            </li>
+
+            <li>
+                <strong>Selected Dataset:</strong>
+                ImageNet-100 (100 classes extracted from the original ImageNet).
+            </li>
+
+            <li>
+                <strong>License:</strong>
+                Apache License 2.0 (according to the dataset source).
+            </li>
+
+            <li>
+                <strong>Split Configuration:</strong>
+                <ul>
+                    <li>
+                        <code>Train set</code>:
+                        123,982 images (~92% of total images).
+                    </li>
+
+                    <li>
+                        <code>Validation set</code>:
+                        5,000 images (50 images/class).
+                    </li>
+
+                    <li>
+                        <code>Test set</code>:
+                        5,000 images (50 images/class).
+                    </li>
+
+                    <li>
+                        <code>Split ratio</code>:
+                        Train : Validation : Test = 0.92 : 0.04 : 0.04.
+                    </li>
+                </ul>
+            </li>
+
+            <li>
+                <strong>Reason for Selection:</strong>
+                The same dataset as A1 is used to maintain consistency
+                across experiments. This allows the evaluation of
+                lightweight CNN, Transformer and Hybrid architectures
+                under the same classification dataset and evaluation protocol.
+            </li>
+        </ul>
+
+        <div class="placeholder-box">
+            <img src="../pages/img/A1_dataset.png"
+                 alt="Placeholder for ImageNet-100 dataset distribution and sample images">
+        </div>
+    </section>
+
+
+    <!-- 3. DataLoader & Augmentation -->
+    <section>
+        <h2>3. DataLoader & Data Augmentation Setup</h2>
+
+        <h3>DataLoader Configuration</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Configuration</th>
+                    <th>MobileNetV2 / DeiT-Tiny</th>
+                    <th>MobileViT-XS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Input Image Size</td>
+                    <td>224 &times; 224</td>
+                    <td>256 &times; 256</td>
+                </tr>
+                <tr>
+                    <td>Batch Size</td>
+                    <td>32</td>
+                    <td>32</td>
+                </tr>
+                <tr>
+                    <td>Shuffle</td>
+                    <td>True (Train), False (Val/Test)</td>
+                    <td>True (Train), False (Val/Test)</td>
+                </tr>
+                <tr>
+                    <td>num_workers</td>
+                    <td>8</td>
+                    <td>8</td>
+                </tr>
+                <tr>
+                    <td>pin_memory</td>
+                    <td>True</td>
+                    <td>True</td>
+                </tr>
+                <tr>
+                    <td>drop_last</td>
+                    <td>True (Train), False (Val/Test)</td>
+                    <td>True (Train), False (Val/Test)</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3>Preprocessing Pipeline</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>Dataset</th>
+                    <th>MobileNetV2 / DeiT-Tiny</th>
+                    <th>MobileViT-XS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Train</td>
+                    <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize</td>
+                    <td>Resize(288) &rarr; CenterCrop(256) &rarr; Normalize</td>
+                </tr>
+                <tr>
+                    <td>Validation / Test</td>
+                    <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize</td>
+                    <td>Resize(288) &rarr; CenterCrop(256) &rarr; Normalize</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p><strong>Note:</strong> No data augmentation is applied. Each model uses a fixed input resolution.</p>
+    </section>
+
+
+    <!-- 4. Experimental Protocol -->
+    <section>
+        <h2>4. Experimental Protocol & Training Configuration Matrix</h2>
+
+        <p>
+            The experiments compare three architecture types:
+            <strong>MobileNetV2 (CNN)</strong>,
+            <strong>DeiT-Tiny (Transformer)</strong> and
+            <strong>MobileViT-XS (Hybrid CNN-Transformer)</strong>.
+            The same weight initialization modes and training strategies
+            are considered for each model.
+        </p>
+
+        <ul>
+            <li>
+                <strong>Environment:</strong>
+                <code>PyTorch, GPU NVIDIA RTX 3500</code>
+            </li>
+
+            <li>
+                <strong>Models:</strong>
+                <code>MobileNetV2, DeiT-Tiny, MobileViT-XS</code>
+            </li>
+
+            <li>
+                <strong>Optimizer:</strong>
+                TBU <code>(lr = 0.01, weight_decay = 0.0005)</code>
+            </li>
+
+            <li>
+                <strong>Scheduler:</strong>
+                StepLR: <code>30</code>
+            </li>
+
+            <li>
+                <strong>Epochs:</strong>
+                <code>70</code>
+            </li>
+
+            <li>
+                <strong>Loss Function:</strong>
+                Cross-Entropy Loss
+            </li>
+        </ul>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Ver.</th>
+                    <th>Model</th>
+                    <th>Initialize Weights</th>
+                    <th>Training Strategy</th>
+                    <th>Base Model & Training Procedure</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <!-- Version 1 -->
+                <tr>
+                    <td>1</td>
+                    <td>
+                        MobileNetV2
+                    </td>
+                    <td>Random Initialization</td>
+                    <td>
+                        <span class="badge badge-pretrained">
+                            Full Fine-tune
+                        </span>
+                    </td>
+                    <td class="text-left">
+                        Use ImageNet-1K pretrained weights. Unfreeze and update all backbone parameters and the classification head.
+                    </td>
+                </tr>
+
+                <!-- Version 2 -->
+                <tr>
+                    <td>2</td>
+                    <td>
+                        DeiT-Tiny
+                    </td>
+                    <td>Pretrained</td>
+                    <td>
+                        <span class="badge badge-pretrained">
+                            Full Fine-tune
+                        </span>
+                    </td>
+                    <td class="text-left">
+                        Use ImageNet-1K pretrained weights. Unfreeze and update all Transformer backbone parameters and the classification head.
+                    </td>
+                </tr>
+
+                <!-- Version 3 -->
+                <tr>
+                    <td>3</td>
+                    <td>
+                        MobileViT-XS
+                    </td>
+                    <td>Pretrained</td>
+                    <td>
+                        <span class="badge badge-pretrained">
+                            Full Fine-tune
+                        </span>
+                    </td>
+                    <td class="text-left">
+                        Use ImageNet-1K pretrained weights. Unfreeze and update all backbone parameters and the classification head.
+                    </td>
+                </tr>
+
+                <!-- Version 4 -->
+                <tr>
+                    <td>4</td>
+                    <td>
+                        MobileViT-XS
+                    </td>
+                    <td>Pretrained</td>
+                    <td>
+                        <span class="badge badge-scratch">
+                            From-Scratch
+                        </span>
+                    </td>
+                    <td class="text-left">
+                        Randomly initialize all model parameters. Train the entire network, including the backbone and classification head, on the target dataset.
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <h3 style="margin-top: 24px;">
+            4.1. Compared Architectures
+        </h3>
+
+        <p>
+            The three selected models represent different approaches
+            to image representation learning.
+        </p>
+
+        <div class="architecture-grid">
+
+            <!-- MobileNetV2 -->
+            <div class="model-column">
+                <h3>1. MobileNetV2</h3>
+
+                <div class="model-type">
+                    <span class="badge badge-cnn">
+                        CNN Baseline
+                    </span>
+                </div>
+
+                <div class="placeholder-box">
+                    [MobileNetV2 Architecture]
+                </div>
+
+                <p>
+                    MobileNetV2 is a lightweight Convolutional Neural
+                    Network designed for mobile and resource-constrained
+                    devices.
+                </p>
+
+                <ul>
+                    <li>Inverted residual blocks.</li>
+                    <li>Depthwise separable convolutions.</li>
+                    <li>Linear bottlenecks.</li>
+                    <li>Efficient local feature extraction.</li>
+                </ul>
+
+                <p class="note">
+                    <strong>Role:</strong>
+                    CNN baseline for evaluating conventional
+                    convolution-based feature extraction.
+                </p>
+            </div>
+
+
+            <!-- DeiT-Tiny -->
+            <div class="model-column">
+                <h3>2. DeiT-Tiny</h3>
+
+                <div class="model-type">
+                    <span class="badge badge-transformer">
+                        Transformer Baseline
+                    </span>
+                </div>
+
+                <div class="placeholder-box">
+                    [DeiT-Tiny Architecture]
+                </div>
+
+                <p>
+                    DeiT-Tiny is a compact Vision Transformer
+                    architecture that processes an image as a
+                    sequence of patch tokens.
+                </p>
+
+                <ul>
+                    <li>Image patch embedding.</li>
+                    <li>Class token and positional embeddings.</li>
+                    <li>Transformer encoder blocks.</li>
+                    <li>Multi-Head Self-Attention.</li>
+                    <li>Feed-Forward Network.</li>
+                </ul>
+
+                <p class="note">
+                    <strong>Role:</strong>
+                    Transformer baseline for evaluating global
+                    relationships between image patches.
+                </p>
+            </div>
+
+
+            <!-- MobileViT-XS -->
+            <div class="model-column">
+                <h3>3. MobileViT-XS</h3>
+
+                <div class="model-type">
+                    <span class="badge badge-hybrid">
+                        Hybrid CNN-Transformer
+                    </span>
+                </div>
+
+                <div class="placeholder-box">
+                    [MobileViT-XS Architecture]
+                </div>
+
+                <p>
+                    MobileViT-XS is the lightweight hybrid architecture
+                    introduced in the reference paper. It combines
+                    convolutional operations and Transformer-based
+                    global processing.
+                </p>
+
+                <ul>
+                    <li>MobileNetV2-style inverted residual blocks.</li>
+                    <li>Convolutional local representation.</li>
+                    <li>Unfold and fold operations.</li>
+                    <li>Transformer-based global processing.</li>
+                    <li>Fusion of local and global representations.</li>
+                </ul>
+
+                <p class="note">
+                    <strong>Role:</strong>
+                    Hybrid model for investigating the combination
+                    of local convolutional features and global
+                    self-attention.
+                </p>
+            </div>
+
+        </div>
+
+        <h3 style="margin-top: 24px;">
+            4.2. MobileViT Architecture Variants
+        </h3>
+
+        <p>
+            The reference paper introduces three MobileViT variants
+            with different model capacities.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Variant</th>
+                    <th>Transformer Dimensions</th>
+                    <th>Transformer Depths</th>
+                    <th>Parameters</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>MobileViT-XXS</td>
+                    <td>64, 80, 96</td>
+                    <td>2, 4, 3</td>
+                    <td>1.3M</td>
+                </tr>
+
+                <tr>
+                    <td><strong>MobileViT-XS</strong></td>
+                    <td><strong>96, 120, 144</strong></td>
+                    <td><strong>2, 4, 3</strong></td>
+                    <td><strong>2.3M</strong></td>
+                </tr>
+
+                <tr>
+                    <td>MobileViT-S</td>
+                    <td>144, 192, 240</td>
+                    <td>2, 4, 3</td>
+                    <td>5.6M</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <p class="note">
+            MobileViT-XS is selected as the hybrid model in this
+            experiment to investigate the lightweight configuration.
+            The parameter count above is reported by the reference paper.
+        </p>
+    </section>
+
+
+    <!-- 5. Results & Comparison -->
+    <section>
+        <h2>5. Comparison Results Table & Evaluation Metrics</h2>
+
+        <p>
+            The test results are based on the model checkpoint
+            with the highest validation accuracy for each
+            architecture and training configuration.
+        </p>
+
+        <p>Summary table of experimental results:</p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Architecture</th>
+                    <th>Configuration / Training Strategy</th>
+                    <th>Trainable Params</th>
+                    <th>Val Accuracy Top-1 (%)</th>
+                    <th>Test Accuracy Top-1 (%)</th>
+                    <th>Macro F1-Score</th>
+                    <th>Time (s/epoch)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td><strong>MobileNetV2</strong><br>(CNN)</td>
+                    <td class="text-left">
+                        Pretrained - Full Fine-tuning
+                    </td>
+                    <td>TBU</td>
+                    <td>--.--%</td>
+                    <td>--.--%</td>
+                    <td>0.----</td>
+                    <td>-- s</td>
+                </tr>
+
+                <tr>
+                    <td><strong>DeiT-Tiny</strong><br>(Transformer)</td>
+                    <td class="text-left">
+                        Pretrained - Full Fine-tuning
+                    </td>
+                    <td>TBU</td>
+                    <td>--.--%</td>
+                    <td>--.--%</td>
+                    <td>0.----</td>
+                    <td>-- s</td>
+                </tr>
+
+                <tr>
+                    <td><strong>MobileViT-XS</strong><br>(Hybrid)</td>
+                    <td class="text-left">
+                        Pretrained - Full Fine-tuning
+                    </td>
+                    <td>TBU</td>
+                    <td>--.--%</td>
+                    <td>--.--%</td>
+                    <td>0.----</td>
+                    <td>-- s</td>
+                </tr>
+
+                <tr>
+                    <td><strong>MobileViT-XS</strong><br>(Hybrid)</td>
+                    <td class="text-left">
+                        Random Initialization - From-Scratch Training
+                    </td>
+                    <td>TBU</td>
+                    <td>--.--%</td>
+                    <td>--.--%</td>
+                    <td>0.----</td>
+                    <td>-- s</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+        <h3 style="margin-top: 24px;">
+            4.1. Model Complexity Comparison
+        </h3>
+
+        <p>
+            In addition to classification performance, model complexity
+            and computational cost are evaluated to investigate
+            the efficiency of each architecture.
+        </p>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Model</th>
+                    <th>Total Parameters</th>
+                    <th>Trainable Parameters</th>
+                    <th>Model Size (MB)</th>
+                    <th>FLOPs / MACs</th>
+                    <th>Inference Time (ms/image)</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr>
+                    <td>MobileNetV2</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                </tr>
+
+                <tr>
+                    <td>DeiT-Tiny</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                </tr>
+
+                <tr>
+                    <td>MobileViT-XS</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                    <td>TBU</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 6. Error Analysis -->
+    <section>
+        <h2>6. Training Curves, Error Analysis & Confusion Matrix</h2>
+
+        <!-- Training Curves -->
+        <h3>6.1. Training Curves</h3>
+
+        <p>
+            Comparison of training and validation performance across
+            different architectures and training configurations.
+            These curves illustrate model convergence, generalization
+            ability, and potential overfitting.
+        </p>
+
+        <div class="comparison-grid">
+
+            <div class="model-column">
+                <h4>Training & Validation Loss</h4>
+                <div class="placeholder-box">
+                    [Loss Curves: All Models]
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>Training & Validation Accuracy</h4>
+                <div class="placeholder-box">
+                    [Accuracy Curves: All Models]
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Confusion Matrix -->
+        <h3>6.2. Confusion Matrix</h3>
+
+        <p>
+            Visual comparison of confusion matrices among the
+            four model configurations on the test set.
+        </p>
+
+        <div class="comparison-grid">
+
+            <div class="model-column">
+                <h4>1. MobileNetV2 (CNN)</h4>
+                <div class="placeholder-box">
+                    [Confusion Matrix]
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>2. DeiT-Tiny (Transformer)</h4>
+                <div class="placeholder-box">
+                    [Confusion Matrix]
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>3. MobileViT-XS (Pretrained)</h4>
+                <div class="placeholder-box">
+                    [Confusion Matrix]
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>4. MobileViT-XS (From Scratch)</h4>
+                <div class="placeholder-box">
+                    [Confusion Matrix]
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Misclassified Examples -->
+        <h3>6.3. Misclassified Examples</h3>
+
+        <p>
+            Representative incorrectly classified test images
+            are examined to identify common classification errors.
+        </p>
+
+        <div class="comparison-grid">
+
+            <div class="model-column">
+                <h4>1. MobileNetV2</h4>
+                <div class="placeholder-box">
+                    [Misclassified Examples]
+                    <br>
+                    True Label vs Predicted Label
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>2. DeiT-Tiny</h4>
+                <div class="placeholder-box">
+                    [Misclassified Examples]
+                    <br>
+                    True Label vs Predicted Label
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>3. MobileViT-XS (Pretrained)</h4>
+                <div class="placeholder-box">
+                    [Misclassified Examples]
+                    <br>
+                    True Label vs Predicted Label
+                </div>
+            </div>
+
+            <div class="model-column">
+                <h4>4. MobileViT-XS (From Scratch)</h4>
+                <div class="placeholder-box">
+                    [Misclassified Examples]
+                    <br>
+                    True Label vs Predicted Label
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+    <!-- 7. Discussion -->
+    <section>
+        <h2>7. Discussion</h2>
+
+        <ul>
+            <li>
+                <strong>CNN vs Transformer:</strong>
+                Compare the ability of MobileNetV2 and DeiT-Tiny
+                to extract local and global image representations.
+            </li>
+
+            <li>
+                <strong>Hybrid Architecture:</strong>
+                Investigate whether MobileViT-XS benefits from
+                combining convolutional local feature extraction
+                and Transformer-based global processing.
+            </li>
+
+            <li>
+                <strong>Classification Performance:</strong>
+                Analyze differences in Top-1 Accuracy, Macro F1-score
+                and confusion matrices.
+            </li>
+
+            <li>
+                <strong>Computational Efficiency:</strong>
+                Compare model parameters, model size, training time
+                and inference latency.
+            </li>
+
+            <li>
+                <strong>Limitations and Potential Improvements:</strong>
+                Discuss the impact of input resolution, training
+                configuration, data augmentation and model complexity.
+            </li>
+        </ul>
+
+        <div class="placeholder-box">
+            [Insert overall comparison chart and key findings]
+        </div>
+    </section>
+
+
+    <!-- 8. References -->
+    <section>
+        <h2>8. References</h2>
+
+        <ol>
+            <li>
+                Mehta, S., and Rastegari, M.
+                "MobileViT: Light-weight, General-purpose, and
+                Mobile-friendly Vision Transformer."
+                ICLR, 2022.
+                <br>
+                <a href="https://openreview.net/pdf?id=vh-0sUt8HlG"
+                   target="_blank">
+                    https://openreview.net/pdf?id=vh-0sUt8HlG
+                </a>
+            </li>
+
+            <li>
+                Sandler, M., et al.
+                "MobileNetV2: Inverted Residuals and Linear Bottlenecks."
+                CVPR, 2018.
+                <br>
+                <a href="https://arxiv.org/abs/1801.04381"
+                   target="_blank">
+                    https://arxiv.org/abs/1801.04381
+                </a>
+            </li>
+
+            <li>
+                Touvron, H., et al.
+                "Training Data-Efficient Image Transformers
+                & Distillation through Attention."
+                ICML, 2021.
+                <br>
+                <a href="https://arxiv.org/abs/2012.12877"
+                   target="_blank">
+                    https://arxiv.org/abs/2012.12877
+                </a>
+            </li>
+
+            <li>
+                Apple Machine Learning Research.
+                "MobileViT."
+                <br>
+                <a href="https://machinelearning.apple.com/research/vision-transformer"
+                   target="_blank">
+                    https://machinelearning.apple.com/research/vision-transformer
+                </a>
+            </li>
+
+            <li>
+                Apple.
+                "Core ML Vision Models - CVNets."
+                <br>
+                <a href="https://github.com/apple/ml-cvnets"
+                   target="_blank">
+                    https://github.com/apple/ml-cvnets
+                </a>
+            </li>
+
+            <li>
+                MobileNetV2 architecture from the MobileNetV2: Inverted Residuals and Linear Bottlenecks paper.
+                <br>
+                <a href="https://docs.pytorch.org/vision/main/models/generated/torchvision.models.mobilenet_v2.html"
+                   target="_blank">
+                    https://docs.pytorch.org/vision/main/models/generated/torchvision.models.mobilenet_v2.html
+                </a>
+            </li>
+
+            <li>
+                A DeiT-Tiny image classification model. Trained on ImageNet-1k by paper authors.
+                <br>
+                <a href="https://huggingface.co/facebook/deit-tiny-patch16-224"
+                   target="_blank">
+                    https://huggingface.co/facebook/deit-tiny-patch16-224
+                </a>
+            </li>
+
+            <li>
+                A MobileViT-XXS image classification model. Trained on ImageNet-1k by paper authors.
+                <br>
+                <a href="https://huggingface.co/timm/mobilevit_xxs.cvnets_in1k"
+                   target="_blank">
+                    https://huggingface.co/timm/mobilevit_xxs.cvnets_in1k
+                </a>
+            </li>
+        </ol>
+    </section>
+
+</div>
+
+</body>
+</html>
