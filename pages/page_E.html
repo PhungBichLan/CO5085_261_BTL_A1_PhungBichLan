@@ -468,11 +468,13 @@
                 <li><strong>Recurrent Models:</strong> Implement both <code>LSTM</code> and <code>GRU</code> (using <code>nn.LSTM</code>, <code>nn.GRU</code>) for the CIFAR-10 image classification task.</li>
                 <li><strong>Image to Sequence Conversion:</strong>
                     <ul>
-                        <li><code>Method 1 (Row-by-Row):</code> 32 time steps, each step is 1 image row 32 &times; 3 = 96 values</li>
-                        <li><code>Method 2 (Patch Sequence):</code> Sequence of patches/blocks scanned row by row</li>
+                        <li><code>Method 1 (Patches):</code> Patches 4*4</li>
+                        <li><code>Method 2 (Pixel):</code> Each pixel is one token</li>
+                        <li><code>Method 3 (Row-by-Row):</code> Each row of channel is one token</li>
+                        <li><code>Method 4 (CNN-stem):</code> Each token is obtained from the output of a CNN stem applied to the image</li>
                     </ul>
                 </li>
-                <li><strong>Comparison Baseline:</strong> MLP and DeepCNN obtained from E1</li>
+                <li><strong>Comparison Baseline:</strong> DeepCNN obtained from E1</li>
             </ul>
 
             <h3>2. Comparison Results with Baseline (Benchmark Table)</h3>
@@ -483,68 +485,133 @@
                         <th>Sequence Conversion Method</th>
                         <th>Number of Parameters (Params)</th>
                         <th>Val/Test Accuracy (%)</th>
-                        <th>Ability to Capture Temporal Dependencies</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td class="text-left"><strong>Baseline MLP</strong> (E1)</td>
-                        <td class="text-left">Flatten Vector (3072)</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>No (Spatial Flat)</td>
-                    </tr>
-                    <tr>
                         <td class="text-left"><strong>Baseline DeepCNN</strong> (E1)</td>
                         <td class="text-left">2D Spatial Feature Map</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>No (Spatial Local)</td>
+                        <td>2098772</td>
+                        <td>88.97% / 88.50%</td>
                     </tr>
                     <tr>
-                        <td rowspan="2"><strong>LSTM</strong></td>
-                        <td class="text-left">Row / Column (32 steps &times; 96-dim)</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>Medium - Long</td>
-                    </tr>
-                    <tr>
-                        <td class="text-left">Patch/Block Sequence</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>Medium - Long</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2"><strong>GRU</strong></td>
-                        <td class="text-left">Row / Column (32 steps &times; 96-dim)</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>Medium</td>
+                        <td rowspan="3"><strong>LSTM</strong></td>
+                        <td class="text-left">Row / Column (32 steps × 96-dim)</td>
+                        <td>403850</td>
+                        <td>56.83% / 53.72%</td>
                     </tr>
                     <tr>
                         <td class="text-left">Patch/Block Sequence</td>
-                        <td>TBU</td>
-                        <td>--.--%</td>
-                        <td>Medium</td>
+                        <td>409994</td>
+                        <td>66.39% / 58.76%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">CNN Stem</td>
+                        <td>2089428</td>
+                        <td>99.71% / 84.12%</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="3"><strong>GRU</strong></td>
+                        <td class="text-left">Row / Column (32 steps × 96-dim)</td>
+                        <td>304778</td>
+                        <td>68.97% / 62.98%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">Patch/Block Sequence</td>
+                        <td>310922</td>
+                        <td>73.75% / 63.21%</td>
+                    </tr>
+                    <tr>
+                        <td class="text-left">CNN Stem</td>
+                        <td>1990356</td>
+                        <td>99.99% / 86.26%</td>
                     </tr>
                 </tbody>
             </table>
 
-            <h3>3. Bar Chart & Summary</h3>
+            <h3>3. Experiments result</h3>
+            <h4>Comparison of LSTM and GRU</h4>
             <div class="comparison-grid">
                 <div class="model-column">
                     <h3>Comparison of Accuracy & Capacity</h3>
                     <div class="placeholder-box">
-                        [Bar chart comparing Accuracy and number of parameters between MLP, DeepCNN, LSTM, GRU]
+                        <img src="../BTL_E1-E2-E3/E3/models/testing_result_accuracy_all.png" alt="Comparison of Accuracy">
+                    </div>
+                    <div class="placeholder-box">
+                        <img src="../BTL_E1-E2-E3/E3/models/cap_time_comparison_lstm.png" alt="Comparison of Capacity and Time (LSTM)">
+                    </div>
+                    <div class="placeholder-box">
+                        <img src="../BTL_E1-E2-E3/E3/models/cap_time_comparison_gru.png" alt="Comparison of Capacity and Time (GRU)">
                     </div>
                 </div>
                 <div class="model-column">
-                    <h3>Time Series Analysis</h3>
+                    <h3>Loss/Accuracy curve</h3>
                     <div class="placeholder-box">
-                        [Comments on the convergence speed and the ability to learn temporal dependencies between LSTM vs GRU on CIFAR-10 data]
+                        <img src="../BTL_E1-E2-E3/E3/models/curves_lstm.png" alt="Loss/Accuracy curve">
+                    </div>
+                    <div class="placeholder-box">
+                        <img src="../BTL_E1-E2-E3/E3/models/curves_gru.png" alt="Loss/Accuracy curve (GRU)">
                     </div>
                 </div>
             </div>
+            <h5>Classification Performance</h5>
+                <p>
+                    CNN-stem achieves the highest test accuracy for both LSTM (84.12%)
+                    and GRU (86.26%), significantly outperforming patch-based and
+                    row-based tokenization. GRU consistently achieves higher accuracy
+                    than LSTM across all three strategies.
+                </p>
+
+            <h5>Model Complexity</h5>
+            <p>
+                GRU requires fewer trainable parameters than LSTM, with reductions
+                of 24.53% (Patch), 24.16% (Row), and 4.74% (CNN-stem).
+                However, CNN-stem requires approximately 2 million parameters,
+                substantially more than the other strategies.
+            </p>
+
+            <h5>Computational Efficiency</h5>
+            <p>
+                GRU does not consistently achieve shorter training time despite
+                having fewer parameters. In particular, LSTM with CNN-stem trains
+                faster (2591.30s) than GRU (3104.49s). Testing times remain
+                relatively similar across all configurations.
+            </p>
+
+            <h5>Training and Generalization</h5>
+            <p>
+                CNN-stem achieves nearly 100% training accuracy, with validation
+                accuracy of 84.67% for LSTM and 86.71% for GRU. The substantial
+                training-validation gap suggests overfitting. Patch and Row
+                strategies show smaller generalization gaps but considerably
+                lower classification performance.
+            </p>
+
+            <h5>Overall Conclusion</h5>
+            <p>
+                GRU provides higher classification accuracy and fewer trainable
+                parameters, while LSTM offers shorter training time with CNN-stem.
+                Overall, CNN-stem delivers the best classification performance
+                for both recurrent architectures, highlighting the importance
+                of spatial feature extraction before sequential processing.
+            </p>
+            <h4>CNN vs. CNN-stem LSTM/GRU</h4>
+            <div class="placeholder-box">
+                <img src="../BTL_E1-E2-E3/E3/models/cnnbase_result_accuracy_all.png" alt="Loss/Accuracy curve (CNN)">
+            </div>
+            <div class="placeholder-box">
+                <img src="../BTL_E1-E2-E3/E3/models/curves_cnnbase.png" alt="Loss/Accuracy curve (CNN)">
+            </div>
+            <p>
+                The baseline CNN achieves the best test accuracy (88.60%), outperforming
+                CNN-stem GRU (86.26%) and LSTM (84.12%). It also provides better
+                generalization, with the lowest test loss (0.3676) and fewer trainable
+                parameters (1.67M). Although LSTM trains faster than the other models,
+                neither recurrent architecture improves classification performance
+                over the standalone CNN. This suggests that additional recurrent
+                processing introduces complexity without providing clear benefits
+                for CIFAR-10 classification.
+            </p>
         </section>
 
     </div>
