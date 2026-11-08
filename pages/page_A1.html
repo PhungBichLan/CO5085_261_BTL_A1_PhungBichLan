@@ -279,7 +279,7 @@
             <li><strong>Environment:</strong><code> PyTorch, GPU NVIDIA RTX 3500</code></li>
             <li><strong>Pretrained model:</strong><code> Resnet50 (PyTorch), ViT-B/16 (PyTorch)</code></li>
             <li><strong>Optimizer: </strong>Adam<code> (lr(bb) = 0.0005, lr(head)=0.001)</code></li>
-            <li><strong>Scheduler: </strong>StepLR:<code> step_size = 10, gamma = 0.1</code></li>
+            <li><strong>Scheduler: </strong>StepLR:<code> step_size = 10, gamma = 0.2</code></li>
             <li><strong>Epochs:</strong><code> 20 (pre-trained)</code></li>
         </ul>
 
@@ -296,31 +296,38 @@
             <tbody>
                 <tr>
                     <td>1</td>
-                    <td>ResNet-50 / ViT</td>
-                    <td>Random Initialization</td>
-                    <td><span class="badge badge-scratch">From-Scratch</span></td>
-                    <td class="text-left">Unfreeze 100% of parameters (Train from scratch).</td>
-                </tr>
-                <tr>
-                    <td>2</td>
-                    <td>ResNet-50 / ViT</td>
+                    <td>ResNet-50</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-freeze">Freeze Full Backbone</span></td>
                     <td class="text-left">Freeze the entire Backbone, only train the Linear Classifier Head.</td>
                 </tr>
                 <tr>
-                    <td>3</td>
-                    <td>ResNet-50 / ViT</td>
+                    <td>2</td>
+                    <td>ResNet-50</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-partial">Partial Freeze</span></td>
                     <td class="text-left">Partial freeze (Freeze Layers 1-3 of ResNet or the first 6 Transformer Blocks of ViT).</td>
                 </tr>
                 <tr>
-                    <td>4</td>
-                    <td>ResNet-50 / ViT</td>
+                    <td>3</td>
+                    <td>ResNet-50</td>
                     <td>Pretrained</td>
                     <td><span class="badge badge-pretrained">Full Fine-tune</span></td>
                     <td class="text-left">Unfreeze the entire network and fine-tune with a small Learning Rate.</td>
+                </tr>
+                <tr>
+                    <td>4</td>
+                    <td>ResNet-50</td>
+                    <td>Random Initialization</td>
+                    <td><span class="badge badge-scratch">From-Scratch</span></td>
+                    <td class="text-left">Unfreeze 100% of parameters (Train from scratch).</td>
+                </tr>
+                <tr>
+                    <td>1</td>
+                    <td>ViT-B/16</td>
+                    <td>Pretrained</td>
+                    <td><span class="badge badge-freeze">Freeze Full Backbone</span></td>
+                    <td class="text-left">Freeze the entire Backbone, only train the Linear Classifier Head.</td>
                 </tr>
             </tbody>
         </table>
@@ -328,9 +335,8 @@
 
     <!-- 4. Results & Comparison -->
     <section>
-        <h2>4. Comparison Results Table & Evaluation Metrics</h2>
+        <h2>4. Comparison Results Table</h2>
         <p>The test results are based on the model trained with the highest validation accuracy.</p>
-        <p>Summary table of experimental data:</p>
         
         <table>
             <thead>
@@ -338,10 +344,10 @@
                     <th>Architecture</th>
                     <th>Configuration / Freeze Level</th>
                     <th>Trainable Params</th>
-                    <th>Val Accuracy Top-1 (%)</th>
-                    <th>Test Accuracy Top-1 (%)</th>
+                    <th>Val Accuracy</th>
+                    <th>Test Accuracy</th>
                     <th>Macro F1-Score</th>
-                    <th>Time (s/epoch)</th>
+                    <th>Time train/test (s)</th>
                 </tr>
             </thead>
             <tbody>
@@ -349,121 +355,123 @@
                 <tr>
                     <td rowspan="4"><strong>ResNet-50</strong><br>(CNN)</td>
                     <td class="text-left">From-scratch</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>23,712,932</td>
+                    <td>76.79%</td>
+                    <td>74.10%</td>
+                    <td>0.9900</td>
+                    <td>21202.36 / 61.231</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Freeze Full Backbone</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>204,900</td>
+                    <td>91.87%</td>
+                    <td>91.76%</td>
+                    <td>0.3356</td>
+                    <td>3912.80 / 22.14</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Freeze Partial (Layer 1-3)</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>15,169,636</td>
+                    <td>87.57%</td>
+                    <td>86.70%</td>
+                    <td>0.5160</td>
+                    <td>4032.17 / 21.40</td>
                 </tr>
                 <tr>
                     <td class="text-left">Pretrained - Full Fine-tune</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>23,712,932</td>
+                    <td>76.83%</td>
+                    <td>75.74%</td>
+                    <td>0.9275</td>
+                    <td>9529.75 / 21.551</td>
                 </tr>
 
                 <!-- ViT-B/16 -->
                 <tr>
-                    <td rowspan="4"><strong>ViT-B/16</strong><br>(Transformer)</td>
-                    <td class="text-left">From-scratch</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
+                    <td><strong>ViT-B/16</strong><br>(Transformer)</td>
                     <td class="text-left">Pretrained - Freeze Full Backbone</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Freeze Partial (Block 1-6)</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
-                </tr>
-                <tr>
-                    <td class="text-left">Pretrained - Full Fine-tune</td>
-                    <td>TBU</td>
-                    <td>--.--%</td>
-                    <td>--.--%</td>
-                    <td>0.----</td>
-                    <td>-- s</td>
+                    <td>76,900</td>
+                    <td>95.86%</td>
+                    <td>95.86%</td>
+                    <td>0.1780</td>
+                    <td>13570.00 / 350.65</td>
                 </tr>
             </tbody>
         </table>
     </section>
 
-    <!-- 5. Error Analysis -->
     <section>
-        <h2>5. Error Analysis & Confusion Matrix</h2>
-        <p>Visual comparison of the confusion matrix and representative misclassified examples between the two architecture families on the Test/Validation set:</p>
+        <h2>5. Performance Analysis</h2>
+        <p>Visual comparison of the performance of CNN and Transformer models on the Test/Validation set</p>
 
         <div class="comparison-grid">
             <!-- Left column: CNN (ResNet-50) -->
-            <div class="model-column">
-                <h3>1. CNN Family (ResNet-50)</h3>
-                
-                <h4>Confusion Matrix</h4>
+            <div class="model-column">                
+                <h3>Model capacity with training time and its accuracy on testing set</h3>
                 <div class="placeholder-box">
-                    [Confusion Matrix of ResNet-50]
+                    <img src="../BTL_A1/source/models/cap_time_comparison.png" alt="Time & Capacity Comparison">
+                </div>
+                <div class="placeholder-box">
+                    <img src="../BTL_A1/source/models/testing_result.png" alt="Testing Result">
                 </div>
 
-                <h4>Top Misclassified Examples</h4>
+                <h3>Loss/Accuracy curve</h3>
                 <div class="placeholder-box">
-                    [Insert representative misclassified examples of ResNet-50<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
-                </div>
-            </div>
-
-            <!-- Right column: Transformer (ViT-B/16) -->
-            <div class="model-column">
-                <h3>2. Transformer Family (ViT-B/16)</h3>
-                
-                <h4>Confusion Matrix</h4>
-                <div class="placeholder-box">
-                    [Confusion Matrix of ViT-B/16]
+                    <img src="../BTL_A1/source/models/curves_all.png" alt="Loss/Accuracy Curve">
                 </div>
 
-                <h4>Top Misclassified Examples</h4>
+                <h3>Sample of missing classifications</h3>
                 <div class="placeholder-box">
-                    [Insert representative misclassified examples of ViT-B/16<br>
-                    <small>(Including True Label vs Predicted Label)</small>]
+                    <img src="../BTL_A1/source/models/fail_sample_0.png" alt="Sample of Missing Classifications">
+                </div>
+                <div class="placeholder-box">
+                    <img src="../BTL_A1/source/models/fail_sample_1.png" alt="Sample of Missing Classifications">
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- 6. Discussion -->
     <section>
-        <h2>6. Discussion</h2>
-        <ul>
-            <li><strong>Comparison of CNN vs Transformer:</strong> TBU</li>
-        </ul>
+        <h2>6. Analysis</h2>
+            <h3>Classification Performance</h3>
+            <p>
+                ResNet50 with Freeze Full Backbone achieves the best performance
+                among ResNet50 configurations, reaching 91.76% test accuracy and
+                0.9179 Macro F1-score. Partial fine-tuning, full fine-tuning, and
+                training from scratch achieve progressively lower accuracy.
+                ViT-B/16 outperforms all configurations, achieving 95.86% test
+                accuracy and 0.95787 Macro F1-score.
+            </p>
+
+            <h3>Model Capacity and Training Efficiency</h3>
+            <p>
+                ViT-B/16 has 85.88M parameters, approximately 3.62 times more than
+                ResNet50 (23.71M). However, its frozen-backbone configuration
+                trains only 76,900 parameters, compared with 204,900 for ResNet50.
+                ViT-B/16 requires longer training (13,570s) and testing (350.65s),
+                while ResNet50 Freeze Full Backbone requires only 3,912.8s and
+                22.14s, respectively.
+            </p>
+
+            <h3>Training and Generalization</h3>
+            <p>
+                ViT-B/16 achieves the lowest training loss (0.164) and validation
+                loss (0.3954), with a 5.16 percentage-point accuracy gap.
+                ResNet50 Freeze Full Backbone also demonstrates good generalization,
+                with a smaller 3.41 percentage-point gap. In contrast, full
+                fine-tuning and training from scratch show weaker validation
+                performance, suggesting that pretrained features are particularly
+                beneficial under the current experimental settings.
+            </p>
+
+            <h3>Overall Analysis</h3>
+            <p>
+                ViT-B/16 provides the highest classification performance, while
+                ResNet50 Freeze Full Backbone offers a more computationally
+                efficient alternative. The results highlight that using pretrained
+                weights and selecting an appropriate fine-tuning strategy are
+                important for achieving effective classification and generalization.
+            </p>
     </section>
 </div>
 
