@@ -472,12 +472,12 @@
                 <tr>
                     <td>Input Image Size</td>
                     <td>224 &times; 224</td>
-                    <td>256 &times; 256</td>
+                    <td>224 &times; 224</td>
                 </tr>
                 <tr>
                     <td>Batch Size</td>
-                    <td>32</td>
-                    <td>32</td>
+                    <td>64</td>
+                    <td>64</td>
                 </tr>
                 <tr>
                     <td>Shuffle</td>
@@ -514,18 +514,16 @@
             <tbody>
                 <tr>
                     <td>Train</td>
-                    <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize</td>
-                    <td>Resize(288) &rarr; CenterCrop(256) &rarr; Normalize</td>
+                    <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize<br>Data Augmentation (brightness=0.2, contrast=0.2)</td>
+                    <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize<br>Data Augmentation (brightness=0.2, contrast=0.2)</td>
                 </tr>
                 <tr>
                     <td>Validation / Test</td>
                     <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize</td>
-                    <td>Resize(288) &rarr; CenterCrop(256) &rarr; Normalize</td>
+                    <td>Resize(256) &rarr; CenterCrop(224) &rarr; Normalize</td>
                 </tr>
             </tbody>
         </table>
-
-        <p><strong>Note:</strong> No data augmentation is applied. Each model uses a fixed input resolution.</p>
     </section>
 
 
@@ -555,17 +553,19 @@
 
             <li>
                 <strong>Optimizer:</strong>
-                TBU <code>(lr = 0.01, weight_decay = 0.0005)</code>
+                Adam <code>(lr_bb = 0.0001, lr_head = 0.001, weight_decay = 0.001)</code>
             </li>
 
             <li>
                 <strong>Scheduler:</strong>
-                StepLR: <code>30</code>
+                Cosine Annealing: <code>10</code>
+                eta_min: <code>0.000001</code>
+                warmup_epochs: <code>3</code>
             </li>
 
             <li>
                 <strong>Epochs:</strong>
-                <code>70</code>
+                <code>30</code>
             </li>
 
             <li>
@@ -1195,18 +1195,18 @@
             <li>
                 A DeiT-Tiny image classification model. Trained on ImageNet-1k by paper authors.
                 <br>
-                <a href="https://huggingface.co/facebook/deit-tiny-patch16-224"
+                <a href="https://huggingface.co/timm/deit_tiny_patch16_224.fb_in1k"
                    target="_blank">
-                    https://huggingface.co/facebook/deit-tiny-patch16-224
+                    https://huggingface.co/timm/deit_tiny_patch16_224.fb_in1k
                 </a>
             </li>
 
             <li>
                 A MobileViT-XXS image classification model. Trained on ImageNet-1k by paper authors.
                 <br>
-                <a href="https://huggingface.co/timm/mobilevit_xxs.cvnets_in1k"
+                <a href="https://huggingface.co/timm/mobilevit_xs.cvnets_in1k"
                    target="_blank">
-                    https://huggingface.co/timm/mobilevit_xxs.cvnets_in1k
+                    https://huggingface.co/timm/mobilevit_xs.cvnets_in1k
                 </a>
             </li>
         </ol>
